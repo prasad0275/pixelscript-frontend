@@ -1,0 +1,11 @@
+#error-console{
+    height: 200px;
+    background-color: rgb(62, 62, 232);
+    padding: 10px 20px;
+    border-top : solid 5px red;
+    border-radius: 10px 10px 0 0;
+    
+}
+#title{
+    justify-content: space-between;
+}

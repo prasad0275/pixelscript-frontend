@@ -1,0 +1,126 @@
+body {
+  background-color: #252525;
+  color: white;
+  padding: 0;
+  margin: 0;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+:root {
+  --primary-color: #007FFF;
+  --secondary-color: #0067cf;
+  --tertiary-color: #45a2ff23;
+  --primary-hover-color: var(--secondary-color);
+  --secondary-hover-color: var(--tertiary-color);
+  --dark-primary: #000000;
+  --dark-secondary: #212121;
+
+}
+
+/* Common Classes */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.p {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+}
+
+.block {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+.mx-10 {
+  margin: 0px 10px;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+.board {
+  display: flex;
+  background-color: black;
+}
+
+.numbers {
+  background-color: rgb(37, 37, 37);
+}
+
+.num {
+  padding: 5px 10px;
+  height: 10px;
+}
+
+.line {
+  height: 10px;
+  padding: 5px 10px;
+  display: block;
+}
+
+.editor {
+  outline: none;
+}
+
+.tab {
+  tab-size: 7;
+}
+
+.run-btn {
+  background-color: #4cbb17;
+  color: #252525;
+  font-weight: 600;
+  margin: 30px 20px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Specific to Id */
+#nav-title {
+  justify-self: center;
+  font-size: 17px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+
+
+
+
+
+/* Design to tags */
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+
+button {
+  padding: 10px 20px;
+  border: 1px black solid;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+textarea {
+  border: 1px black solid;
+  border-radius: 5px;
+}

@@ -1,0 +1,6 @@
+#sidebar {
+    background-color:var(--primary-color);
+    max-height: 100%;
+    padding: 20px 10px;
+    gap: 20px;
+  }

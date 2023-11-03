@@ -1,0 +1,7 @@
+.main {
+    height: 90vh;
+  }
+.center{
+  flex : 1;
+  height: 100%;
+}

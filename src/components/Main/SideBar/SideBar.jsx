@@ -1,5 +1,5 @@
 import "./SideBar.css"
-function SideBar({handleShowSideMenu, handleShowErrorConsole}){
+function SideBar({handleShowSideMenu, handleShowDialogBox, handleShowErrorConsole}){
     return (
              <div id="sidebar" className="flex flex-col">
             <div id="files" >
@@ -9,7 +9,8 @@ function SideBar({handleShowSideMenu, handleShowErrorConsole}){
                 </span>
             </div>
             <div>
-                <span className="material-symbols-outlined cursor-pointer">
+                <span className="material-symbols-outlined cursor-pointer"
+                onClick={handleShowDialogBox}>
                     cloud_upload
                 </span>
             </div>

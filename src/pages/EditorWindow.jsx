@@ -10,7 +10,7 @@ function EditorWindow(){
 
     return(
         <>
-        <Header handleShowRunPanel={handleShowRunPanel}/>
+        <Header handleShowRunPanel={handleShowRunPanel} />
         <Main showRunPanel={showRunPanel}/>
         </>
     )

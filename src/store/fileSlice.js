@@ -5,17 +5,17 @@ const initialState = {
         {
             id : 1,
             name : "First.java",
-            code : "Class First{\n public static void main(String args[]){\n \n}\n",
+            code : "class First{\n public static void main(String args[]){\n \n}\n",
         },
         {
             id : 2,
             name : "Second.java",
-            code : "Class Second{\n public static void main(String args[]){\n \n}\n",
+            code : "class Second{\n public static void main(String args[]){\n \n}\n",
         },
         {
             id : 3,
             name : "Third.java",
-            code : "Class Third{\n public static void main(String args[]){\n \n}\n",
+            code : "class Third{\n public static void main(String args[]){\n \n}\n",
         },
     ]
 }
@@ -30,7 +30,9 @@ export const fileSlice = createSlice({
         removeFile : (state, action) => {
 
         },
-        
+        saveFile : (state, action) => {
+            
+        }
 
     }
 })

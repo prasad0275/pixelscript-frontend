@@ -1,0 +1,40 @@
+.flex-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 50px;
+    gap: 15px;
+    border-radius: 20px;
+}
+
+.title {
+    color: whitesmoke;
+}
+
+.my {
+    margin: 10px 0;
+}
+
+form {
+    background-color: #58b4ff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+}
+
+input:focus {
+    outline: #05b40b 2px solid;
+    box-shadow: 0 1px 20px 0 #05b40b;
+
+}
+
+input[type='submit'] {
+    background-color: #05b40b;
+    color: black;
+    font-weight: 900px;
+}

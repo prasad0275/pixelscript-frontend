@@ -38,15 +38,14 @@ textarea {
   border: 1px black solid;
   border-radius: 5px;
 }
-select{
-  padding : 10px 20px;
+
+select {
+  padding: 10px 20px;
   border: 1px solid white;
   border-radius: 10px;
 }
 
-input{
-  
-}
+input {}
 
 
 /* ----------------------------- */
@@ -60,9 +59,21 @@ input{
   flex-direction: column;
 }
 
+.justify-content-center {
+  justify-content: center;
+}
+
 .align-items-center {
   align-items: center;
 }
+
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .p {
   font-family: Arial, Helvetica, sans-serif;
@@ -74,13 +85,16 @@ input{
   padding: 0;
   margin: 0;
 }
-.inline{
+
+.inline {
   display: inline;
 }
+
 .mx-10 {
   margin: 0px 10px;
 }
-.my-10{
+
+.my-10 {
   margin: 10px 0px;
 }
 
@@ -106,8 +120,8 @@ input{
 }
 
 .numbers {
-  margin:0 0;
-  padding:0px 7px;
+  margin: 0 0;
+  padding: 0px 7px;
   background-color: rgb(37, 37, 37);
   display: flex;
   flex-direction: column;
@@ -153,9 +167,3 @@ input{
   font-size: 17px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
-
-
-
-
-
-

@@ -1,12 +1,17 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import ContentEditable from "react-contenteditable";
 import SuggestionBox from '../SuggestionBox/SuggestionBox'
+import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import Prism from 'prismjs'
+
 import "./Editor.css"
 function Editor({ code = "" }) {
     const [currCode, setCurrCode] = useState('');
     const [currWord, setCurrWord] = useState('');
     const [currProp, setCurrProp] = useState('');
     const [currObj, setCurrObj] = useState('');
+    // const [caretPosition, setCaretPosition] = useState(0);
     const [lines, setLines] = useState(code.toString().split("\n"));
     const [showSuggestion, setShowSuggestion] = useState(false)
     const [suggestionPosition, setSuggestionPosition] = useState();
@@ -15,11 +20,11 @@ function Editor({ code = "" }) {
 
     const editorRef = useRef();
     const contentEditableRef = useRef();
-
+    const keywords = ['class', 'int', 'string', 'public', 'static', 'void', 'return'];
 
     let str = "";
     useEffect(() => {
-        setCurrCode(code);
+        setCurrCode(highlightKeywords(code));
     }, [code]);
 
     useEffect(() => {
@@ -27,38 +32,64 @@ function Editor({ code = "" }) {
 
     }, [currCode, setCursorPosition])
 
-   
+
+    const highlightKeywords = (text) => {
+        // alert("Called")
+        var code = keywords.reduce((acc, keyword) => {
+            const regex = new RegExp(`\\b${keyword}\\b`, 'g');
+
+            return acc.replace(regex, (match) => `<span style="color: yellow;">${match}</span>`);
+
+        }, text);
+        // setCurrCode(code)
+        return code;
+    };
+
+    useMemo(() => { }, [currCode])
+
     const handleCodeChange = (e) => {
         console.log("onchange");
-        setCurrCode(e.target.value);
-        console.log("key : ",e.key);
+        const selection = window.getSelection();
+        const range = selection.getRangeAt(0);
+        console.log("range before ", range);
+
+        code = document.getElementById("contentEditable")
+        const highlightedContent = highlightKeywords(code.innerText);
+
+        setCurrCode(highlightedContent);
+
+        selection.addRange(range)
+
+        selection.addRange(range);
+        console.log("range after ", range);
+
+        console.log("key : ", e.key);
 
         let str = e.nativeEvent.data;
-        
-        if(str!==undefined && str!== null && str!=="."){
-            setCurrWord((prev)=>prev+str);
+
+        if (str !== undefined && str !== null && str !== ".") {
+            setCurrWord((prev) => prev + str);
             // console.log("Curr word ",currWord);
-            
         }
-        if(str==="."){
+        if (str === ".") {
             // console.log("After dot the word is ",currWord)
             setCurrObj(currWord);
             // console.log("curr Object",currObj);
             setCurrWord('');
             setCurrProp('')
         }
-        
+
         else if ((previousRange.range !== null) && (e.key !== "BackSpace")) {
-           setCurrProp(currWord);
-        //    console.log("Curr Prop",currProp);
+            setCurrProp(currWord);
+            //    console.log("Curr Prop",currProp);
         }
 
-        
-        
+
+
     }
     const handleKeyDown = (e) => {
         console.log("onkeydown")
-        
+
         if (e.key === 'Enter') {
             e.preventDefault();
             const selection = window.getSelection();
@@ -120,18 +151,18 @@ function Editor({ code = "" }) {
             setShowSuggestion(false);
         }
 
-        if(e.key === "Backspace"){
+        if (e.key === "Backspace") {
             // console.log("Backspace");
-            setCurrWord((prev)=>prev.substring(0,prev.length-1));
+            setCurrWord((prev) => prev.substring(0, prev.length - 1));
             if (previousRange.range !== null) {
                 setCurrProp(currWord);
                 // console.log("Curr Prop after backspace",currProp);
-             }
+            }
             setPreviousRange({ range: null });
-            if(currWord.length<1){
+            if (currWord.length < 1) {
                 setShowSuggestion(false);
             }
-            
+
         }
 
     };
@@ -142,7 +173,7 @@ function Editor({ code = "" }) {
         // console.log("range >>> ", window.getSelection().getRangeAt(0));
         // console.log("previous range", previousRange.range)
 
-    
+
 
         if (contentEditableRef.current && cursorPosition) {
             // const { start, startContainer } = cursorPosition;
@@ -157,7 +188,7 @@ function Editor({ code = "" }) {
             const node = range.commonAncestorContainer;
 
             let newNode = document.createElement('span');
-            newNode.innerHTML = "."+suggestion;
+            newNode.innerHTML = "." + suggestion;
             range.insertNode(newNode);
 
 
@@ -175,10 +206,12 @@ function Editor({ code = "" }) {
             selection.removeAllRanges();
             selection.addRange(previousRange.range);
 
-           
+
             // console.log("Modified Content:", document.getElementById("contentEditable").innerText);
             const modifiedContent = document.getElementById("contentEditable").innerText;
             setCurrCode(modifiedContent);
+
+            setShowSuggestion(false)
 
         }
     }
@@ -193,6 +226,8 @@ function Editor({ code = "" }) {
                         lines.map((_, index) => (<div key={index} className="num">{index + 1}</div>))
                     }
                 </div>
+
+
                 <ContentEditable
                     id="contentEditable"
                     html={currCode}
@@ -202,12 +237,10 @@ function Editor({ code = "" }) {
                     style={{ fontFamily: 'arial', margin: '0 0', padding: '4px 10px', outline: 'none' }}
                     ref={contentEditableRef}
                 />
-
-
                 {showSuggestion && <SuggestionBox currObj={currObj} currProp={currProp} position={suggestionPosition} handleSuggestionSelection={handleSuggestionSelection} />}
 
 
-            {/* <button onClick={()=>(alert("current word : "+currWord+", current Obj :"+ currObj+", current Prop : "+currProp))}>click</button> */}
+                {/* <button onClick={()=>(alert("current word : "+currWord+", current Obj :"+ currObj+", current Prop : "+currProp))}>click</button> */}
             </div>
         </div>
     )

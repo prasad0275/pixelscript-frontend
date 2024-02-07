@@ -1,5 +1,5 @@
 import "./Header.css"
-function Header({handleShowRunPanel}) {
+function Header({handleShowRunPanel, handleSaveFile}) {
     return (
         
         <header className="flex align-items-center">
@@ -43,7 +43,7 @@ function Header({handleShowRunPanel}) {
                     </span>
                 </div>
                 <div>
-                    <span className="material-symbols-outlined cursor-pointer">
+                    <span className="material-symbols-outlined cursor-pointer" onClick={handleSaveFile}>
                         save
                     </span>
                 </div>

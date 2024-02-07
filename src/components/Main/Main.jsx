@@ -59,6 +59,10 @@ function Main({ showRunPanel }) {
         }
     }
 
+    const handleSaveFile = () => {
+        console.log("Save")
+    }
+
     useEffect(() => {
 
     }, [selectedFile])

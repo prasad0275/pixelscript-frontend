@@ -6,7 +6,12 @@ import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Prism from 'prismjs'
 
 import "./Editor.css"
-function Editor({ code = "" }) {
+import { saveFile } from "../../../store/fileSlice";
+import { useDispatch } from "react-redux";
+
+function Editor({ code = "", file, setSelectedFile }) {
+
+    const dispatch = useDispatch()
     const [currCode, setCurrCode] = useState('');
     const [currWord, setCurrWord] = useState('');
     const [currProp, setCurrProp] = useState('');
@@ -48,22 +53,39 @@ function Editor({ code = "" }) {
     useMemo(() => { }, [currCode])
 
     const handleCodeChange = (e) => {
-        console.log("onchange");
+        // console.log("onchange");
         const selection = window.getSelection();
         const range = selection.getRangeAt(0);
-        console.log("range before ", range);
+        // console.log("range before ", range);
 
         code = document.getElementById("contentEditable")
         const highlightedContent = highlightKeywords(code.innerText);
 
         setCurrCode(highlightedContent);
 
+        const modifiedContent = document.getElementById("contentEditable").innerText;
+        // Crucial code for saving the file
+        // setCurrCode(currCode)
+       
+        const tempFile = {
+            id: file.id,
+            name: file.name,
+            code: modifiedContent
+        }
+
+        // console.log("Code : ", modifiedContent)
+
+        dispatch(saveFile(tempFile))
+
+
+
+
         selection.addRange(range)
 
         selection.addRange(range);
-        console.log("range after ", range);
+        // console.log("range after ", range);
 
-        console.log("key : ", e.key);
+        // console.log("key : ", e.key);
 
         let str = e.nativeEvent.data;
 
@@ -184,7 +206,7 @@ function Editor({ code = "" }) {
             range.deleteContents();
 
             // Insert the suggestion at the cursor position
-            console.log("previous :", range.commonAncestorContainer)
+            // console.log("previous :", range.commonAncestorContainer)
             const node = range.commonAncestorContainer;
 
             let newNode = document.createElement('span');

@@ -6,7 +6,7 @@ function SideMenu({files,handleFileSelection}){
             <ul>
                 {
                     files.map(value => (
-                        <div key={value.id} onClick={()=>{console.log(value.code);handleFileSelection(value)}}><li>{value.name}</li></div>
+                        <div key={value.id} onClick={()=>{handleFileSelection(value)}}><li>{value.name}.{value.extension}</li></div>
                     ))
                 }
             </ul>

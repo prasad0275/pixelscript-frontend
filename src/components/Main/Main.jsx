@@ -5,21 +5,20 @@ import RunPanel from "./RunPanel/RunPanel"
 import SideMenu from "./SideMenu/SideMenu"
 import { useEffect, useState } from "react"
 import ErrorConsole from "./ErrorConsole/ErrorConsole"
-import { useSelector } from "react-redux"
 import DialogBox from "./DialogBox/DialogBox"
+
+import { useDispatch, useSelector } from "react-redux"
+import { saveFile } from "../../store/fileSlice"
+
 function Main({ showRunPanel }) {
 
     //reduxtoolkit
     const files = useSelector(state => state.files)
-
+    const dispatch = useDispatch()
     const [showSideMenu, setShowSideMenu] = useState(false)
     const [showErrorConsole, setShowErrorConsole] = useState(false)
     const [showDialogBox, setShowDialogBox] = useState(false)
-    const [selectedFile, setSelectedFile] = useState({
-        id: 1,
-        name: "demo.java",
-        code: "===============| Create or open you file |========================",
-    })
+    const [selectedFile, setSelectedFile] = useState(files[0])
 
 
     const handleShowSideMenu = () => {
@@ -28,12 +27,9 @@ function Main({ showRunPanel }) {
 
     const handleShowDialogBox = () => {
         setShowDialogBox(prev => !prev)
+        dispatch(saveFile(selectedFile))
     }
 
-    const handleCloseModal = () => {
-        setShowDialogBox(false);
-        setShowErrorConsole(false);
-    }
 
     const handleShowErrorConsole = () => {
         setShowErrorConsole(prev => !prev)
@@ -48,20 +44,17 @@ function Main({ showRunPanel }) {
         const selectElement = document.getElementById('selectFile');
 
         const selectedOption = selectElement.options[selectElement.selectedIndex];
-    
+
         if (selectedOption) {
             const selectedValue = selectedOption.value;
             const selectedTitle = selectedOption.text;
-    
-            console.log('Selected Title:', selectedTitle);
-            console.log('Selected Value:', selectedValue);
-    
+
+            // console.log('Selected Title:', selectedTitle);
+            // console.log('Selected Value:', selectedValue);
+
         }
     }
 
-    const handleSaveFile = () => {
-        console.log("Save")
-    }
 
     useEffect(() => {
 
@@ -72,17 +65,17 @@ function Main({ showRunPanel }) {
             <SideBar handleShowSideMenu={handleShowSideMenu} handleShowDialogBox={handleShowDialogBox} handleShowErrorConsole={handleShowErrorConsole} />
             {showSideMenu && <SideMenu files={files} handleFileSelection={handleFileSelection} />}
             <div className="flex flex-col center">
-                <Editor code={selectedFile.code} />
+                <Editor code={selectedFile.code} file={selectedFile} setSelectedFile={setSelectedFile} />
                 {/* {showErrorConsole && <ErrorConsole />} */}
-                {showErrorConsole && <DialogBox open={showErrorConsole} title={"Error Console"} handleCloseModal={handleCloseModal}></DialogBox>}
+                {showErrorConsole && <DialogBox open={showErrorConsole} title={"Error Console"}></DialogBox>}
             </div>
-            {showDialogBox && <DialogBox open={showDialogBox} title={"Upload Code"} handleCloseModal={handleCloseModal}>
+            {showDialogBox && <DialogBox open={showDialogBox} title={"Upload Code"} >
                 <div className="flex flex-col gap-20 width-200 align-items-center">
                     <div>
                         <select id="selectFile">
                             {
                                 files.map(value => (
-                                    <option key={value.id} value={value.code}>{value.name}</option>
+                                    <option key={value.id} value={value.code}>{value.name}.{value.extension}</option>
                                 ))
                             }
                         </select>

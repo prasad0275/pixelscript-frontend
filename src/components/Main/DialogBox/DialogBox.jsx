@@ -15,29 +15,34 @@ const customStyles = {
     },
 };
 
-function DialogBox({children, open, title, handleCloseModal }) {
-   
+function DialogBox({ children, open, title }) {
+    const [openModel, setOpenModel] = useState(open)
+    const handleCloseModal = () => {
+        // setShowDialogBox(false);
+        // setShowErrorConsole(false);
+        setOpenModel(prev => prev = !prev)
+    }
     return (
         <>
             <Modal
-                isOpen={open}
+                isOpen={openModel}
                 style={customStyles}
                 contentLabel="Example Modal"
             >
                 <div >
                     <h2 className="inline">{title}</h2>
                     <span id="close-button" className="material-symbols-outlined cursor-pointer"
-                    onClick={handleCloseModal}>
+                        onClick={handleCloseModal}>
                         cancel
                     </span>
                 </div>
-                
+
                 {/* <button onClick={closeModal}>close</button> */}
-               <div className="my-10">
-                {children}
+                <div className="my-10">
+                    {children}
                 </div>
-               
-                
+
+
             </Modal>
         </>
     )

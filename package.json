@@ -11,8 +11,12 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
+    "@uiw/react-codemirror": "^4.21.23",
+    "ace-builds": "^1.32.6",
+    "axios": "^1.6.7",
     "prismjs": "^1.29.0",
     "react": "^18.2.0",
+    "react-ace": "^10.1.0",
     "react-contenteditable": "^3.3.7",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",

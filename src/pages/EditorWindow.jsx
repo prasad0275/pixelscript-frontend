@@ -1,17 +1,26 @@
 import { useState } from "react"
 import Header from "../components/Header/Header"
 import Main from "../components/Main/Main"
-function EditorWindow(){
+import RunPanel from "../components/Main/RunPanel/RunPanel"
+import DialogBox from "../components/Main/DialogBox/DialogBox"
+function EditorWindow() {
     const [showRunPanel, setShowRunPanel] = useState(false)
 
     const handleShowRunPanel = () => {
         setShowRunPanel((prev) => !prev)
     }
 
-    return(
+    return (
         <>
-        <Header handleShowRunPanel={handleShowRunPanel} />
-        <Main showRunPanel={showRunPanel}/>
+            <Header handleShowRunPanel={handleShowRunPanel} />
+            <Main showRunPanel={showRunPanel} />
+
+
+            {showRunPanel &&
+                <DialogBox open={showRunPanel} title={'Run your code'}>
+                    <RunPanel />
+                </DialogBox>
+            }
         </>
     )
 }

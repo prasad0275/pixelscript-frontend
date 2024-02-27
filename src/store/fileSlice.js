@@ -1,6 +1,12 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit"
 
 const initialState = {
+    selectedFile: {
+        id: 1,
+        name: "First",
+        extension: 'java',
+        code: "class selectedFirst{\n public static void main(String args[]){\n \n }\n}",
+    },
     files: [
         {
             id: nanoid(),
@@ -27,6 +33,10 @@ export const fileSlice = createSlice({
     name: "file",
     initialState,
     reducers: {
+        selectFile: (state, action) => {
+            state.selectedFile = action.payload
+            console.log("file slice :: selectFile : ", state.selectedFile)
+        },
         addFile: (state, action) => {
             const { id, filename, extension, code } = action.payload
             const file = {
@@ -41,7 +51,7 @@ export const fileSlice = createSlice({
         renameFile: (state, action) => {
             const { filename, rename } = action.payload
             const fileToRename = state.files.find(file => file.name === filename);
-            if(fileToRename){
+            if (fileToRename) {
                 fileToRename.name = rename
             }
 
@@ -56,6 +66,7 @@ export const fileSlice = createSlice({
             if (fileToUpdate) {
                 // console.log("File to Update : ", fileToUpdate)
                 fileToUpdate.code = code;
+                state.selectedFile = fileToUpdate;
             } else {
                 console.error(`FileSlice : saveFile : File with id ${id} not found.`);
             }
@@ -63,5 +74,5 @@ export const fileSlice = createSlice({
     }
 })
 
-export const { addFile, renameFile, removeFile, saveFile } = fileSlice.actions;
+export const { selectFile, addFile, renameFile, removeFile, saveFile } = fileSlice.actions;
 export default fileSlice.reducer

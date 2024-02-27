@@ -5,9 +5,19 @@ import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Prism from 'prismjs'
 
+import CodeMirror from '@uiw/react-codemirror';
+// import { javascript } from '@codemirror/language/'
+
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/theme-github";
+import "ace-builds/src-noconflict/theme-terminal";
+import "ace-builds/src-noconflict/ext-language_tools";
+
 import "./Editor.css"
 import { saveFile } from "../../../store/fileSlice";
 import { useDispatch } from "react-redux";
+import Textarea from "./Textarea";
 
 function Editor({ code = "", file, setSelectedFile }) {
 
@@ -63,10 +73,12 @@ function Editor({ code = "", file, setSelectedFile }) {
 
         setCurrCode(highlightedContent);
 
-        const modifiedContent = document.getElementById("contentEditable").innerText;
+
+
+
         // Crucial code for saving the file
         // setCurrCode(currCode)
-       
+        const modifiedContent = document.getElementById("contentEditable").innerText;
         const tempFile = {
             id: file.id,
             name: file.name,
@@ -250,15 +262,21 @@ function Editor({ code = "", file, setSelectedFile }) {
                 </div>
 
 
-                <ContentEditable
+                {/* <ContentEditable
                     id="contentEditable"
                     html={currCode}
+                    // dangerouslySetInnerHTML={{ __html: currCode }}
                     tagName="pre"
                     onChange={handleCodeChange}
+                    // onInput={handleCodeChange}
                     onKeyDown={handleKeyDown}
                     style={{ fontFamily: 'arial', margin: '0 0', padding: '4px 10px', outline: 'none' }}
                     ref={contentEditableRef}
-                />
+                /> */}
+
+                <Textarea/>
+
+
                 {showSuggestion && <SuggestionBox currObj={currObj} currProp={currProp} position={suggestionPosition} handleSuggestionSelection={handleSuggestionSelection} />}
 
 

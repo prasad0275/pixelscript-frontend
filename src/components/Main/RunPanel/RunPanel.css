@@ -1,9 +1,20 @@
-#run-panel{
+/* #run-panel{
     background-color:#007FFF;
     width: 290px;
     max-height:100%;
     justify-content: end;
   }
-  #io-textarea{
-    margin: 30px 20px;
-  }
+  */
+
+.textarea {
+  font-size: 15px;
+  font-family: Verdana, sans-serif;
+}
+
+.textarea-output {
+  background-color: black;
+  color: whitesmoke;
+  font-weight: bolder;
+  caret-color: aqua;
+  caret-shape: underscore;
+}

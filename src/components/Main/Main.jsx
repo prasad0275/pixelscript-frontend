@@ -8,17 +8,25 @@ import ErrorConsole from "./ErrorConsole/ErrorConsole"
 import DialogBox from "./DialogBox/DialogBox"
 
 import { useDispatch, useSelector } from "react-redux"
-import { saveFile } from "../../store/fileSlice"
+import { saveFile, selectFile } from "../../store/fileSlice"
+import Textarea from "./Editor/Textarea"
+import { nanoid } from "@reduxjs/toolkit"
 
 function Main({ showRunPanel }) {
 
     //reduxtoolkit
     const files = useSelector(state => state.files)
+    const file = useSelector(state => state.selectedFile);
     const dispatch = useDispatch()
     const [showSideMenu, setShowSideMenu] = useState(false)
     const [showErrorConsole, setShowErrorConsole] = useState(false)
     const [showDialogBox, setShowDialogBox] = useState(false)
-    const [selectedFile, setSelectedFile] = useState(files[0])
+    const [selectedFile, setSelectedFile] = useState({
+        id: nanoid(),
+        name: "First",
+        extension: 'java',
+        code: "class First{\n public static void main(String args[]){\n \n }\n}",
+    })
 
 
     const handleShowSideMenu = () => {
@@ -27,7 +35,7 @@ function Main({ showRunPanel }) {
 
     const handleShowDialogBox = () => {
         setShowDialogBox(prev => !prev)
-        dispatch(saveFile(selectedFile))
+        // dispatch(saveFile(selectedFile))
     }
 
 
@@ -36,8 +44,9 @@ function Main({ showRunPanel }) {
     }
 
     const handleFileSelection = (file) => {
-        setSelectedFile(file)
+        // setSelectedFile(file)
         // console.log(">",selectedFile);
+        dispatch(selectFile(file))
     }
 
     const handleFileUpload = () => {
@@ -65,7 +74,8 @@ function Main({ showRunPanel }) {
             <SideBar handleShowSideMenu={handleShowSideMenu} handleShowDialogBox={handleShowDialogBox} handleShowErrorConsole={handleShowErrorConsole} />
             {showSideMenu && <SideMenu files={files} handleFileSelection={handleFileSelection} />}
             <div className="flex flex-col center">
-                <Editor code={selectedFile.code} file={selectedFile} setSelectedFile={setSelectedFile} />
+                {/* <Editor code={selectedFile.code} file={selectedFile} setSelectedFile={setSelectedFile} /> */}
+                <Textarea code={selectedFile.code} file={selectedFile} />
                 {/* {showErrorConsole && <ErrorConsole />} */}
                 {showErrorConsole && <DialogBox open={showErrorConsole} title={"Error Console"}></DialogBox>}
             </div>
@@ -86,7 +96,7 @@ function Main({ showRunPanel }) {
                 </div>
 
             </DialogBox>}
-            {showRunPanel && <RunPanel />}
+            {/* {showRunPanel && <RunPanel />} */}
         </div>
     )
 }

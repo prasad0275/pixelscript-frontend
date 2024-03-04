@@ -1,31 +1,51 @@
 import axios from "axios";
 
-function signup({username, email, firstname, lastname, password}){
+async function signup({ username, email, firstname, lastname, password }) {
 
-    console.log(username, email)
-    axios.post('http://localhost:8080/users',{
+    // console.log(username, email)
+    const response = await axios.post('http://localhost:8080/register', {
         username,
         email,
         firstname,
         lastname,
         password
     })
-    .then((response)=>{
-        console.log(response);
+        .then((response) => {
+            console.log("authService:: signup: response ", response);
+            return response;
+        })
+        .catch((error) => {
+            console.log("authService:: signup: error", error);
+            return error.response
+        })
+        .finally(() => {
+            console.log("this is finally")
+        })
+
+    return response;
+}
+
+async function login({ username, password }) {
+
+    // console.log(username, email)
+    const response = await axios.post('http://localhost:8080/login', {
+        username,
+        password
     })
-    .catch((error)=>{
-        console.log(error);
-        return error
-    })
-    .finally(()=>{
-        console.log("this is finally")
-    })
+        .then((response) => {
+            console.log(response);
+            return response;
+        })
+        .catch((error) => {
+            console.log("authService :: Login :: Error:",error);
+            return error.response;
+        })
+        .finally(() => {
+            console.log("this is finally")
+        })
+
+    return response;
 }
 
 
-// function login(){
-
-// }
-
-
-export {signup}
+export { signup, login }

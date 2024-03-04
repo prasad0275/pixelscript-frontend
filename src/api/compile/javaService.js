@@ -5,6 +5,8 @@ function compile({ filename, extension, code }) {
 }
 
 async function run({ filename, extension, code, input }) {
+    const token = localStorage.getItem("token")
+    console.log("token : ",token)
     const reponse = await axios.post(
         'http://localhost:8080/compile',
         {
@@ -12,6 +14,11 @@ async function run({ filename, extension, code, input }) {
             extension,
             code,
             input
+        },
+        {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
         }
 
     )
@@ -23,7 +30,7 @@ async function run({ filename, extension, code, input }) {
             return error;
         })
         .finally(() => {
-
+            console.log("This is finally block")
         })
 
     return reponse;

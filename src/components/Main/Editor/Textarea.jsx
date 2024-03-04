@@ -13,7 +13,7 @@ import { saveFile } from "../../../store/fileSlice";
 
 function Textarea({ code = "", file }) {
     const dispatch = useDispatch();
-    const selectedFile = useSelector(state => state.selectedFile);
+    const selectedFile = useSelector(state => state.fileSlice.selectedFile);
 
     const [showSuggestion, setShowSuggestion] = useState(false);
     const [suggestionPosition, setSuggestionPosition] = useState();
@@ -104,7 +104,7 @@ function Textarea({ code = "", file }) {
                 theme="terminal"
                 name="UNIQUE_ID_OF_DIV"
                 editorProps={{ $blockScrolling: true }}
-                style={{ 'flex': '1', 'width': '100%' }}
+                style={{ 'flex': '1', 'width': '100%', 'zIndex': '0' }}
                 value={currCode}
                 onChange={handleOnChange}
                 fontSize={'20px'}

@@ -5,7 +5,10 @@ import authSlice from "./authSlice";
 // const reducers = combineReducers()
 
 const store = configureStore({
-    reducer: fileSlice,
+    reducer: {
+        fileSlice : fileSlice,
+        authSlice : authSlice
+    },
 });
 
 export default store;

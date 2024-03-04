@@ -18,8 +18,12 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: '/',
-        element: <EditorWindow />
+        path: '/workspace/:id',
+        element: (
+          <AuthLayout authentication>
+            <EditorWindow />
+          </AuthLayout>
+        )
       },
       {
         path: "/login",
@@ -38,8 +42,8 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: "/home",
-        element : (
+        path: "/",
+        element: (
           <AuthLayout authentication>
             <HomePage />
           </AuthLayout>

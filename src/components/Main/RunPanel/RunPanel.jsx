@@ -7,7 +7,7 @@ import { Await } from "react-router-dom";
 
 function RunPanel() {
 
-    const file = useSelector(state => state.selectedFile);
+    const file = useSelector(state => state.fileSlice.selectedFile);
     const [textareaInput, setTextareaInput] = useState('');
     const [output, setOutput] = useState();
     const [outputLoader, setOutputLoader] = useState(false);
@@ -23,19 +23,24 @@ function RunPanel() {
         setToggleInputOutput(false);
         if (file.extension == 'java') {
             setOutputLoader(true);
-            const response = await runJava(data);
+            const response = await runJava(data).finally(()=>(setOutputLoader(false)));
             if (response.status == 200) {
                 console.log(response.data.output);
                 setOutput(response.data.output + "\n\n .....Press Exit to close console!");
-                setOutputLoader(false);
+            }
+            else{
+                setOutput(response.message + "\n\n .....Press Exit to close console!");
             }
         }
         else if (file.extension == 'cpp') {
             setOutputLoader(true);
-            const response = await runCPP(data);
+            const response = await runCPP(data).finally(()=>(setOutputLoader(false)));;
             if (response.status == 200) {
                 setOutput(response.data.output + "\n\n .....Press Exit to close console!");
                 setOutputLoader(false);
+            }
+            else{
+                setOutput(response.message + "\n\n .....Press Exit to close console!");
             }
         }
     }

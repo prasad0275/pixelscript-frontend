@@ -5,16 +5,19 @@ import { useForm } from "react-hook-form"
 import { nanoid } from "@reduxjs/toolkit"
 import { useDispatch, useSelector } from "react-redux"
 import { addFile, renameFile } from "../../store/fileSlice"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
+import { postFiles } from "../../api/workspace/fileService"
 
 
 function Header({ handleShowRunPanel }) {
     const [showNewFileDialog, setShowNewFileDialog] = useState(false)
     const [showRenameFileDialog, setShowRenameFileDialog] = useState(false)
 
+    const param = useParams()
     const dispatch = useDispatch()
+    const userData = useSelector(state => state.authSlice.userData)
     const navigate = useNavigate()
-    const files = useSelector(state => state.files)
+    const files = useSelector(state => state.fileSlice.files)
 
     const { register, handleSubmit } = useForm({
         defaultValues: {
@@ -40,6 +43,10 @@ function Header({ handleShowRunPanel }) {
         }
         dispatch(addFile(file))
         setShowNewFileDialog(false)
+        const response = postFiles(userData.id, param.id, data);
+        if(response.status == 200) {
+            console.log("File is created!");
+        }
     }
 
     const handleRenameFileDialog = () => {

@@ -15,8 +15,8 @@ import { nanoid } from "@reduxjs/toolkit"
 function Main({ showRunPanel }) {
 
     //reduxtoolkit
-    const files = useSelector(state => state.files)
-    const file = useSelector(state => state.selectedFile);
+    const files = useSelector(state => state.fileSlice.files)
+    const file = useSelector(state => state.fileSlice.selectedFile);
     const dispatch = useDispatch()
     const [showSideMenu, setShowSideMenu] = useState(false)
     const [showErrorConsole, setShowErrorConsole] = useState(false)
@@ -35,7 +35,6 @@ function Main({ showRunPanel }) {
 
     const handleShowDialogBox = () => {
         setShowDialogBox(prev => !prev)
-        // dispatch(saveFile(selectedFile))
     }
 
 
@@ -44,8 +43,6 @@ function Main({ showRunPanel }) {
     }
 
     const handleFileSelection = (file) => {
-        // setSelectedFile(file)
-        // console.log(">",selectedFile);
         dispatch(selectFile(file))
     }
 
@@ -57,10 +54,6 @@ function Main({ showRunPanel }) {
         if (selectedOption) {
             const selectedValue = selectedOption.value;
             const selectedTitle = selectedOption.text;
-
-            // console.log('Selected Title:', selectedTitle);
-            // console.log('Selected Value:', selectedValue);
-
         }
     }
 

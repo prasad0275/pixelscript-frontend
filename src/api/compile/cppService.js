@@ -1,6 +1,7 @@
 import axios from "axios"
 
 async function compile({ filename, extension, code }) {
+    const token = localStorage.getItem("token")
     const reponse = await axios.post(
         'http://localhost:8080/cpp/compile',
         {
@@ -8,6 +9,11 @@ async function compile({ filename, extension, code }) {
             extension,
             code,
             input
+        },
+        {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
         }
 
     )
@@ -26,6 +32,7 @@ async function compile({ filename, extension, code }) {
 }
 
 async function run({ filename, extension, code, input }) {
+    const token = localStorage.getItem("token")
     const reponse = await axios.post(
         'http://localhost:8080/cpp/run',
         {
@@ -33,6 +40,11 @@ async function run({ filename, extension, code, input }) {
             extension,
             code,
             input
+        },
+        {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
         }
 
     )

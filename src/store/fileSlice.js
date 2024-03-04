@@ -37,6 +37,9 @@ export const fileSlice = createSlice({
             state.selectedFile = action.payload
             console.log("file slice :: selectFile : ", state.selectedFile)
         },
+        addFiles: (state, action) => {
+            state.files = action.payload
+        },
         addFile: (state, action) => {
             const { id, filename, extension, code } = action.payload
             const file = {
@@ -74,5 +77,5 @@ export const fileSlice = createSlice({
     }
 })
 
-export const { selectFile, addFile, renameFile, removeFile, saveFile } = fileSlice.actions;
+export const { selectFile, addFiles, addFile, renameFile, removeFile, saveFile } = fileSlice.actions;
 export default fileSlice.reducer

@@ -44,7 +44,7 @@ function Header({ handleShowRunPanel }) {
         dispatch(addFile(file))
         setShowNewFileDialog(false)
         const response = postFiles(userData.id, param.id, data);
-        if(response.status == 200) {
+        if (response.status == 200) {
             console.log("File is created!");
         }
     }
@@ -71,14 +71,14 @@ function Header({ handleShowRunPanel }) {
                     <div>
                         <b>PS</b>
                     </div>
-                    <nav className="flex">
+                    <nav className="flex" style={{ 'zIndex': '5' }}>
                         <div>
                             <div className="nav-item">File</div>
                             <div className="item-content">
                                 <ul>
                                     <li className="cursor-pointer" onClick={handleNewFileDialog}>New File</li>
                                     <li className="cursor-pointer" onClick={handleRenameFileDialog}>Rename File</li>
-                                    <li className="cursor-pointer" onClick={()=>navigate("/home")}>New Workspace</li>
+                                    <li className="cursor-pointer" onClick={() => navigate("/")}>New Workspace</li>
                                     <li className="cursor-pointer">Exit</li>
                                 </ul>
                             </div>

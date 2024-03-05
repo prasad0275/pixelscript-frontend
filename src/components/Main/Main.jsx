@@ -8,15 +8,18 @@ import ErrorConsole from "./ErrorConsole/ErrorConsole"
 import DialogBox from "./DialogBox/DialogBox"
 
 import { useDispatch, useSelector } from "react-redux"
-import { saveFile, selectFile } from "../../store/fileSlice"
+import { removeFile, saveFile, selectFile } from "../../store/fileSlice"
 import Textarea from "./Editor/Textarea"
 import { nanoid } from "@reduxjs/toolkit"
+import { useForm } from "react-hook-form"
+import { deleteFiles, updateFiles } from "../../api/workspace/fileService"
 
 function Main({ showRunPanel }) {
 
     //reduxtoolkit
     const files = useSelector(state => state.fileSlice.files)
     const file = useSelector(state => state.fileSlice.selectedFile);
+    const userData = useSelector(state => state.authSlice.userData)
     const dispatch = useDispatch()
     const [showSideMenu, setShowSideMenu] = useState(false)
     const [showErrorConsole, setShowErrorConsole] = useState(false)
@@ -26,6 +29,12 @@ function Main({ showRunPanel }) {
         name: "First",
         extension: 'java',
         code: "class First{\n public static void main(String args[]){\n \n }\n}",
+    })
+
+    const { register, handleSubmit } = useForm({
+        defaultValues: {
+            id: ''
+        }
     })
 
 
@@ -46,17 +55,30 @@ function Main({ showRunPanel }) {
         dispatch(selectFile(file))
     }
 
-    const handleFileUpload = () => {
-        const selectElement = document.getElementById('selectFile');
+    const handleFileUpload = async (data) => {
+        const id = data.id;
+        const file = files.find((value) => value.id == id)
+        console.log(file)
 
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const response = updateFiles(userData.id, file.workspaceId, id,
+            { filename: file.filename, extension: file.extension, code: file.code });
 
-        if (selectedOption) {
-            const selectedValue = selectedOption.value;
-            const selectedTitle = selectedOption.text;
+        if (response.status == 200) {
+            alert("Code is successfully uploaded!");
         }
     }
 
+    const handleFileDelete = async (workspaceId, fileId) => {
+        console.log("handleFileDelete : ", workspaceId, fileId)
+        if(confirm("Do you want to delete file?")){
+            deleteFiles(userData.id, workspaceId, fileId)
+            dispatch(removeFile(fileId))
+            console.log("Deleted");
+        }
+        else{
+            console.log("Not Deleted")
+        }
+    }
 
     useEffect(() => {
 
@@ -65,27 +87,32 @@ function Main({ showRunPanel }) {
     return (
         <div className="flex main">
             <SideBar handleShowSideMenu={handleShowSideMenu} handleShowDialogBox={handleShowDialogBox} handleShowErrorConsole={handleShowErrorConsole} />
-            {showSideMenu && <SideMenu files={files} handleFileSelection={handleFileSelection} />}
+            {showSideMenu && <SideMenu files={files} handleFileSelection={handleFileSelection} handleFileDelete={handleFileDelete} />}
             <div className="flex flex-col center">
                 {/* <Editor code={selectedFile.code} file={selectedFile} setSelectedFile={setSelectedFile} /> */}
-                <Textarea code={selectedFile.code} file={selectedFile} />
+                <Textarea />
                 {/* {showErrorConsole && <ErrorConsole />} */}
                 {showErrorConsole && <DialogBox open={showErrorConsole} title={"Error Console"}></DialogBox>}
             </div>
             {showDialogBox && <DialogBox open={showDialogBox} title={"Upload Code"} >
-                <div className="flex flex-col gap-20 width-200 align-items-center">
-                    <div>
-                        <select id="selectFile">
-                            {
-                                files.map(value => (
-                                    <option key={value.id} value={value.code}>{value.name}.{value.extension}</option>
-                                ))
-                            }
-                        </select>
-                    </div>
-                    <div>
-                        <button id="btnUpload" onClick={handleFileUpload}>Upload</button>
-                    </div>
+                <div>
+                    <form className="flex flex-col gap-20 width-200 align-items-center" action=""
+                        onSubmit={handleSubmit(handleFileUpload)}>
+                        <div>
+                            <select id="selectFile"
+                                {...register("id")}
+                            >
+                                {
+                                    files.map(value => (
+                                        <option key={value.id} value={value.id}>{value.filename}.{value.extension}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit" id="btnUpload">Upload</button>
+                        </div>
+                    </form>
                 </div>
 
             </DialogBox>}

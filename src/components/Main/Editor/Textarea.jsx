@@ -11,7 +11,7 @@ import SuggestionBox from "../SuggestionBox/SuggestionBox";
 import { useDispatch, useSelector } from "react-redux";
 import { saveFile } from "../../../store/fileSlice";
 
-function Textarea({ code = "", file }) {
+function Textarea({}) {
     const dispatch = useDispatch();
     const selectedFile = useSelector(state => state.fileSlice.selectedFile);
 
@@ -107,6 +107,7 @@ function Textarea({ code = "", file }) {
                 style={{ 'flex': '1', 'width': '100%', 'zIndex': '0' }}
                 value={currCode}
                 onChange={handleOnChange}
+                placeholder="Write your code here..."
                 fontSize={'20px'}
             />
 

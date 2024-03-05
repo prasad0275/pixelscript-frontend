@@ -3,26 +3,26 @@ import { createSlice, nanoid } from "@reduxjs/toolkit"
 const initialState = {
     selectedFile: {
         id: 1,
-        name: "First",
+        filename: "First",
         extension: 'java',
         code: "class selectedFirst{\n public static void main(String args[]){\n \n }\n}",
     },
     files: [
         {
             id: nanoid(),
-            name: "First",
+            filename: "First",
             extension: 'java',
             code: "class First{\n public static void main(String args[]){\n \n }\n}",
         },
         {
             id: nanoid(),
-            name: "Second",
+            filename: "Second",
             extension: 'java',
             code: "class Second{\n public static void main(String args[]){\n \n }\n}",
         },
         {
             id: nanoid(),
-            name: "Third",
+            filename: "Third",
             extension: 'java',
             code: "class Third{\n public static void main(String args[]){\n \n }\n}",
         },
@@ -61,7 +61,9 @@ export const fileSlice = createSlice({
 
         },
         removeFile: (state, action) => {
-
+            const id  = action.payload
+            state.files = state.files.filter(file => file.id != id)
+            console.log("removeFile :: files : ",state.files)
         },
         saveFile: (state, action) => {
             const { id, code } = action.payload;

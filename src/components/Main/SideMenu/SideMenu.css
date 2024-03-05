@@ -1,14 +1,15 @@
-#side-menu{
-    width: 150px;
-    background-color: var(--secondary-color);
-    padding: 5px 5px;
+#side-menu {
+  min-width: 20%;
+  background-color: var(--secondary-color);
+  padding: 5px 5px;
 }
 
-#side-menu li{
-  padding : 5px 10px;
+#side-menu li {
+  padding: 5px 10px;
   cursor: pointer;
-  
+
 }
-#side-menu:hover ul li:hover{
+
+#side-menu:hover ul li:hover {
   background-color: var(--secondary-hover-color);
 }

@@ -28,6 +28,7 @@ function HomePage({ }) {
     })
 
     useEffect(() => {
+        console.log(userData)
         loadWorkspace();
     }, [showCreateWorkspaceDialog])
 

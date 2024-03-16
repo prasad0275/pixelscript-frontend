@@ -3,6 +3,7 @@ import "./RunPanel.css"
 import { useState } from "react";
 import { compile as compileJava, run as runJava } from "../../../api/compile/javaService";
 import { compile as compileCPP, run as runCPP } from "../../../api/compile/cppService";
+import { compile as interpretPython, run as runPython } from "../../../api/compile/pythonService";
 import { Await } from "react-router-dom";
 
 function RunPanel() {
@@ -14,7 +15,7 @@ function RunPanel() {
     const [toggleInputOutput, setToggleInputOutput] = useState(true);
     const handleRunBtn = async () => {
         const data = {
-            filename: file.name,
+            filename: file.filename,
             extension: file.extension,
             code: file.code,
             input: textareaInput
@@ -35,6 +36,17 @@ function RunPanel() {
         else if (file.extension == 'cpp') {
             setOutputLoader(true);
             const response = await runCPP(data).finally(()=>(setOutputLoader(false)));;
+            if (response.status == 200) {
+                setOutput(response.data.output + "\n\n .....Press Exit to close console!");
+                setOutputLoader(false);
+            }
+            else{
+                setOutput(response.message + "\n\n .....Press Exit to close console!");
+            }
+        }
+        else if (file.extension == 'py') {
+            setOutputLoader(true);
+            const response = await runPython(data).finally(()=>(setOutputLoader(false)));;
             if (response.status == 200) {
                 setOutput(response.data.output + "\n\n .....Press Exit to close console!");
                 setOutputLoader(false);

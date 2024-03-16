@@ -47,5 +47,19 @@ async function login({ username, password }) {
     return response;
 }
 
+async function validateToken({user_id, token}){
+    const response = await axios.post(`http://validate-user/${user_id}`, {
+        token
+    })
+    .then((response) => {
+        return response;
+    })
+    .catch((error) => {
+        return error.response;
+    })
 
-export { signup, login }
+    return response;
+}
+
+
+export { signup, login, validateToken }

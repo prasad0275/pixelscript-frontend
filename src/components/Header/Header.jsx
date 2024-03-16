@@ -6,7 +6,7 @@ import { nanoid } from "@reduxjs/toolkit"
 import { useDispatch, useSelector } from "react-redux"
 import { addFile, renameFile } from "../../store/fileSlice"
 import { useNavigate, useParams } from "react-router-dom"
-import { postFiles } from "../../api/workspace/fileService"
+import { postFiles, updateFiles } from "../../api/workspace/fileService"
 
 
 function Header({ handleShowRunPanel }) {
@@ -18,6 +18,7 @@ function Header({ handleShowRunPanel }) {
     const userData = useSelector(state => state.authSlice.userData)
     const navigate = useNavigate()
     const files = useSelector(state => state.fileSlice.files)
+    const selectedFile = useSelector(state => state.fileSlice.selectedFile)
 
     const { register, handleSubmit } = useForm({
         defaultValues: {
@@ -62,6 +63,11 @@ function Header({ handleShowRunPanel }) {
         console.log("handle Rename:", file)
         dispatch(renameFile(file))
         setShowRenameFileDialog(false)
+        const response = updateFiles(userData.id, selectedFile.workspaceId, selectedFile.id, { filename: file.rename, extension: selectedFile.extension, code: selectedFile.code })
+        console.log(response)
+        if (response.status == 200) {
+            alert(response.data)
+        }
     }
 
     return (
@@ -134,7 +140,7 @@ function Header({ handleShowRunPanel }) {
                                         {...register("extension", { required: true })}
                                     >
                                         <option value="java">.java</option>
-                                        <option value="c">.c</option>
+                                        <option value="py">.py</option>
                                         <option value="cpp">.cpp</option>
                                     </select>
                                 </div>
@@ -167,7 +173,7 @@ function Header({ handleShowRunPanel }) {
                                         >
                                             {
                                                 files.map(value => (
-                                                    <option key={value.id} value={value.name}>{value.name}</option>
+                                                    <option key={value.id} value={value.filename}>{value.filename}</option>
                                                 ))
                                             }
                                         </select>

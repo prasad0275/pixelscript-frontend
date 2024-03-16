@@ -1,17 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import AceEditor from "react-ace";
+import esprima from 'esprima';
 
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-terminal";
 import "ace-builds/src-noconflict/ext-language_tools";
+import 'ace-builds/src-noconflict/mode-javascript';
 import { edit } from "ace-builds";
 import SuggestionBox from "../SuggestionBox/SuggestionBox";
 import { useDispatch, useSelector } from "react-redux";
 import { saveFile } from "../../../store/fileSlice";
 
-function Textarea({}) {
+function Textarea({ }) {
     const dispatch = useDispatch();
     const selectedFile = useSelector(state => state.fileSlice.selectedFile);
 
@@ -34,8 +36,8 @@ function Textarea({}) {
         // editor.setValue(code);
         editor.on("change", (e) => {
             var char = e.lines[0];
-            console.log("event :", e);
-            console.log("key : ", char);
+            // console.log("event :", e);
+            // console.log("key : ", char);
             setPosition(e.end);
             setWord(value => value + char);
             if (char === '.') {
@@ -69,6 +71,8 @@ function Textarea({}) {
         });
     }, [])
 
+
+
     const handleSuggestionSelection = (text) => {
         const row = position.row;
         const column = position.column;
@@ -82,7 +86,7 @@ function Textarea({}) {
 
     const handleOnChange = (value) => {
         setCurrCode(value);
-        console.log("Handle code change : ", selectedFile)
+        // console.log("Handle code change : ", selectedFile)
         const tempFile = {
             id: selectedFile.id,
             name: selectedFile.name,
@@ -90,15 +94,14 @@ function Textarea({}) {
             code: value
         }
 
-        console.log("Code : ", tempFile)
-
+        // console.log("Code : ", tempFile)
         dispatch(saveFile(tempFile))
     }
 
     return (
         <>
             <AceEditor
-                id="e"
+                id="editor"
                 ref={editorRef}
                 mode="java"
                 theme="terminal"

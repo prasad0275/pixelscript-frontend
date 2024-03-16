@@ -84,9 +84,9 @@ function Signup() {
                                 {...register("username")}
                                 onChange={(e) => (setValidUsername(e.target.value.length > 5))}
                             />
-                            <span>{validUsername ? <span class="material-symbols-outlined">
+                            <span>{validUsername ? <span class="material-symbols-outlined" style={{ 'color': 'green' }}>
                                 check
-                            </span> : <span class="material-symbols-outlined">
+                            </span> : <span class="material-symbols-outlined" style={{ 'color': 'red' }}>
                                 close
                             </span>}</span>
                         </div>
@@ -94,9 +94,9 @@ function Signup() {
                             <input {...register("email")} type="text" id="email" placeholder="Email"
                                 onChange={(e) => (isValidEmail(e.target.value))}
                             />
-                            <span>{validEmail ? <span class="material-symbols-outlined">
+                            <span>{validEmail ? <span class="material-symbols-outlined" style={{ 'color': 'green' }}>
                                 check
-                            </span> : <span class="material-symbols-outlined">
+                            </span> : <span class="material-symbols-outlined" style={{ 'color': 'red' }}>
                                 close
                             </span>}</span>
                         </div>
@@ -123,9 +123,9 @@ function Signup() {
                             <input  {...register("password")} type="password" id="password" placeholder="Password"
                                 onChange={(e) => (isValidPassword(e.target.value))}
                             />
-                            <span>{validPassword ? <span class="material-symbols-outlined">
+                            <span>{validPassword ? <span class="material-symbols-outlined" style={{ 'color': 'green' }}>
                                 check
-                            </span> : <span class="material-symbols-outlined">
+                            </span> : <span class="material-symbols-outlined" style={{ 'color': 'red' }}>
                                 close
                             </span>}</span>
                         </div>
@@ -133,9 +133,9 @@ function Signup() {
                             <input type="password" id="confirm-password" placeholder="Confirm password"
                                 onChange={(e) => (setValidConfirmPassword(e.target.value === password))}
                             />
-                            <span>{validConfirmPassword ? <span class="material-symbols-outlined">
+                            <span>{validConfirmPassword ? <span class="material-symbols-outlined" style={{ 'color': 'green' }}>
                                 check
-                            </span> : <span class="material-symbols-outlined">
+                            </span> : <span class="material-symbols-outlined" style={{ 'color': 'red' }}>
                                 close
                             </span>}</span>
                         </div>

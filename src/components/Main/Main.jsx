@@ -61,7 +61,7 @@ function Main({ showRunPanel }) {
         console.log(file)
 
         const response = updateFiles(userData.id, file.workspaceId, id,
-            { filename: file.filename, extension: file.extension, code: file.code });
+            { filename: file.name, extension: file.extension, code: file.code });
 
         if (response.status == 200) {
             alert("Code is successfully uploaded!");

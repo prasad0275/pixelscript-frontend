@@ -8,7 +8,7 @@ async function run({ filename, extension, code, input }) {
     const token = localStorage.getItem("token")
     console.log("token : ",token)
     const reponse = await axios.post(
-        'http://localhost:8080/java/run',
+        'http://localhost:8080/python/run',
         {
             filename,
             extension,

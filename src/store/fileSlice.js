@@ -44,7 +44,7 @@ export const fileSlice = createSlice({
             const { id, filename, extension, code } = action.payload
             const file = {
                 id: id,
-                name: filename,
+                filename: filename,
                 extension: extension,
                 code: code
             }
@@ -53,11 +53,12 @@ export const fileSlice = createSlice({
         },
         renameFile: (state, action) => {
             const { filename, rename } = action.payload
-            const fileToRename = state.files.find(file => file.name === filename);
+            const fileToRename = state.files.find(file => file.filename == filename);
             if (fileToRename) {
-                fileToRename.name = rename
+                fileToRename.filename = rename
             }
 
+            console.log("fileSlice :: renameFile :: fileToRename : ", fileToRename.filename)
 
         },
         removeFile: (state, action) => {

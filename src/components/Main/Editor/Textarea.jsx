@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import AceEditor from "react-ace";
-import esprima from 'esprima';
 
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-github";

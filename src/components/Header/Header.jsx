@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./Header.css"
 import DialogBox from "../Main/DialogBox/DialogBox"
+import DocumentationGenerator from "../DocumentationGenerator/DocumentationGenerator"
 import { useForm } from "react-hook-form"
 import { nanoid } from "@reduxjs/toolkit"
 import { useDispatch, useSelector } from "react-redux"
@@ -29,6 +30,7 @@ function Header({ handleShowRunPanel }) {
             rename: ''
         }
     });
+
 
 
     const handleNewFileDialog = () => {
@@ -113,9 +115,7 @@ function Header({ handleShowRunPanel }) {
                         </span>
                     </div>
                     <div>
-                        <span className="material-symbols-outlined cursor-pointer">
-                            save
-                        </span>
+                        <DocumentationGenerator />
                     </div>
                 </div>
 

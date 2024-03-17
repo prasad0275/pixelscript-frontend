@@ -11,6 +11,7 @@ import EditorWindow from './pages/EditorWindow.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import HomePage from './pages/HomePage.jsx'
+import DocumentationGenerator from './components/DocumentationGenerator/DocumentationGenerator.jsx'
 
 const router = createBrowserRouter([
   {
@@ -50,13 +51,12 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: "/add-post",
-        // element : (
-        //   <AuthLayout authentication>
-        //     {" "}
-        //     <AddPost/>
-        //   </AuthLayout>
-        // )
+        path: "/doc",
+        element : (
+          <AuthLayout authentication>
+            <DocumentationGenerator/>
+          </AuthLayout>
+        )
       },
       {
         path: "/edit-post/:slug",

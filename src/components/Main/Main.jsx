@@ -13,6 +13,7 @@ import Textarea from "./Editor/Textarea"
 import { nanoid } from "@reduxjs/toolkit"
 import { useForm } from "react-hook-form"
 import { deleteFiles, updateFiles } from "../../api/workspace/fileService"
+import { useNavigate } from "react-router-dom"
 
 function Main({ showRunPanel }) {
 
@@ -21,6 +22,7 @@ function Main({ showRunPanel }) {
     const file = useSelector(state => state.fileSlice.selectedFile);
     const userData = useSelector(state => state.authSlice.userData)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [showSideMenu, setShowSideMenu] = useState(false)
     const [showErrorConsole, setShowErrorConsole] = useState(false)
     const [showDialogBox, setShowDialogBox] = useState(false)
@@ -48,7 +50,8 @@ function Main({ showRunPanel }) {
 
 
     const handleShowErrorConsole = () => {
-        setShowErrorConsole(prev => !prev)
+        navigate('/doc')
+        // setShowErrorConsole(prev => !prev)
     }
 
     const handleFileSelection = (file) => {

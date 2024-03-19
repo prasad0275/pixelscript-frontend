@@ -1,11 +1,15 @@
 import "./Auth.css"
-import { signup } from "../../api/auth/authService";
+import { getUser, signup, updateUser } from "../../api/auth/authService";
 import { useForm } from "react-hook-form";
 import { nanoid } from "@reduxjs/toolkit";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login as loginSlice } from '../../store/authSlice'
 
 function Signup() {
+    const userData = useSelector(state => state.authSlice.userData)
+    const dispatch = useDispatch()
     const [validUsername, setValidUsername] = useState(false);
     const [validEmail, setValidEmail] = useState(false);
     const [password, setPassword] = useState('');
@@ -17,10 +21,10 @@ function Signup() {
     const { register, handleSubmit } = useForm({
         defaultValues: {
             id: nanoid(),
-            username: '',
-            email: '',
-            firstname: '',
-            lastname: '',
+            username: userData?.username || '',
+            email: userData?.email || '',
+            firstname: userData?.firstname || '',
+            lastname: userData?.lastname || '',
             password: '',
         }
     });
@@ -50,25 +54,56 @@ function Signup() {
         return setValidPassword(true);
     }
 
-
+    
     const handleSignupForm = async (data) => {
         console.log("Form submitted!")
         const user = {
             name: data.username,
         }
-        const response = await signup(data);
+        if (userData) {
+            var updatedData = {}
+            if (data.password == '') {
+                updatedData = {
+                    firstname: data.firstname,
+                    lastname: data.lastname
+                }
+            }
+            else {
+                updatedData = {
+                    firstname: data.firstname,
+                    lastname: data.lastname,
+                    password: data.password,
+                }
+            }
+            const response = await updateUser(userData.id, updatedData)
+            if (response.status == 200) {
+                alert("Profile is successfully updated!");
+                const user = await getUser(userData.id);
+                const newUserData = { userData: user.data };
+                dispatch(loginSlice(newUserData))
+                console.log("updated User : ", newUserData)
+                navigate("/");
+            }
+            else {
+                alert("Oops! There is an error. Please try again after some time.");
+            }
+        } else {
+            const response = await signup(data);
+            if (response.status == 201) {
+                alert("You have registered successfully. Please proceed to login.");
+                navigate("/login");
+            }
+            else {
+                alert("Oops! Username or email already exists. Please try again with different username.");
+            }
+        }
+
         console.log("response :", response)
         console.log("response data:", response.data)
         console.log("response status code :", response.status)
         console.log("response message :", response.data.message)
 
-        if (response.status == 201) {
-            alert("You have registered successfully. Please proceed to login.");
-            navigate("/login");
-        }
-        else {
-            alert("Oops! Username or email already exists. Please try again with different username.");
-        }
+
     }
 
     return (
@@ -76,15 +111,16 @@ function Signup() {
             <div>
                 <form className="flex-1" onSubmit={handleSubmit(handleSignupForm)}>
                     <div className="title">
-                        <h1>Sign up</h1>
+                        <h1>{userData ? 'Profile' : 'Sign up'}</h1>
                     </div>
                     <div className="flex align-items-center gap-20 ">
                         <div className="flex align-items-center gap-10 ">
                             <input type="text" placeholder="Username"
                                 {...register("username")}
                                 onChange={(e) => (setValidUsername(e.target.value.length > 5))}
+                                readOnly={userData ? true : false}
                             />
-                            <span>{validUsername ? <span class="material-symbols-outlined" style={{ 'color': 'green' }}>
+                            <span>{validUsername || userData ? <span class="material-symbols-outlined" style={{ 'color': 'green' }} >
                                 check
                             </span> : <span class="material-symbols-outlined" style={{ 'color': 'red' }}>
                                 close
@@ -93,8 +129,9 @@ function Signup() {
                         <div className="flex align-items-center gap-10 ">
                             <input {...register("email")} type="text" id="email" placeholder="Email"
                                 onChange={(e) => (isValidEmail(e.target.value))}
+                                readOnly={userData ? true : false}
                             />
-                            <span>{validEmail ? <span class="material-symbols-outlined" style={{ 'color': 'green' }}>
+                            <span>{validEmail || userData ? <span class="material-symbols-outlined" style={{ 'color': 'green' }}>
                                 check
                             </span> : <span class="material-symbols-outlined" style={{ 'color': 'red' }}>
                                 close
@@ -146,12 +183,14 @@ function Signup() {
                     </div>
                     <div className="">
                         {
-                            (validUsername && validEmail && validPassword && validConfirmPassword) ? <input type="submit" value="Sign up" /> : <input type="submit" value="Sign up" disabled />
+                            (validUsername && validEmail && validPassword && validConfirmPassword) || userData ? <input type="submit" value={userData ? 'Update' : 'Sign up'} /> : <input type="submit" value={userData ? 'Update' : 'Sign up'} disabled />
                         }
                     </div>
 
                     <div>
-                        <span>Already have an account? <a className="cursor-pointer" onClick={() => (navigate('/login'))}>Login</a></span>
+                        {userData ? '' :
+                            <span>Already have an account? <a className="cursor-pointer" onClick={() => (navigate('/login'))}>Login</a></span>
+                        }
                     </div>
 
 

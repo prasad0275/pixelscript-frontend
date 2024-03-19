@@ -59,13 +59,12 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: "/edit-post/:slug",
-        // element : (
-        //   <AuthLayout authentication>
-        //     {" "}
-        //     <EditPost />
-        //   </AuthLayout>
-        // )
+        path: "/profile",
+        element : (
+          <AuthLayout authentication>
+            <SignupPage/>
+          </AuthLayout>
+        )
       },
       {
         path: "/post/:slug",

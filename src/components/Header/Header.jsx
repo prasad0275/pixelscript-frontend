@@ -81,22 +81,22 @@ function Header({ handleShowRunPanel }) {
                     </div>
                     <nav className="flex" style={{ 'zIndex': '5' }}>
                         <div>
-                            <div className="nav-item">File</div>
+                            <div className="nav-item cursor-pointer">File</div>
                             <div className="item-content">
                                 <ul>
                                     <li className="cursor-pointer" onClick={handleNewFileDialog}>New File</li>
                                     <li className="cursor-pointer" onClick={handleRenameFileDialog}>Rename File</li>
                                     <li className="cursor-pointer" onClick={() => navigate("/")}>New Workspace</li>
-                                    <li className="cursor-pointer">Exit</li>
+                                    <li className="cursor-pointer" onClick={() => navigate("/")}>Exit</li>
                                 </ul>
                             </div>
                         </div>
                         <div>
-                            <div className="nav-item">Edit</div>
+                            <div className="nav-item cursor-pointer">Edit</div>
                             <div className="item-content">
                                 <ul>
-                                    <li className="cursor-pointer">Find</li>
-                                    <li className="cursor-pointer">Replace</li>
+                                    {/* <li className="cursor-pointer">Find</li>
+                                    <li className="cursor-pointer">Replace</li> */}
                                     <li className="cursor-pointer">Font</li>
                                     <li className="cursor-pointer">Font Size</li>
                                 </ul>

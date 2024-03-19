@@ -7,6 +7,7 @@
     gap: 15px;
     border-radius: 20px;
     background-color: #838383;
+    background-color: #00718550;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -39,8 +40,12 @@ input[type='submit'] {
     color: black;
     font-weight: 900px;
 }
+
 input[type='submit']:disabled {
-    background-color: #e0e0e0; /* Light gray background */
-    color: #a0a0a0; /* Light gray text color */
-    cursor: not-allowed; /* Change cursor to indicate it's disabled */
+    background-color: #e0e0e0;
+    /* Light gray background */
+    color: #a0a0a0;
+    /* Light gray text color */
+    cursor: not-allowed;
+    /* Change cursor to indicate it's disabled */
 }

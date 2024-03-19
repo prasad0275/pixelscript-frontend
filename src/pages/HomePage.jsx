@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Center from '../components/Center'
 import DialogBox from '../components/Main/DialogBox/DialogBox'
 import { useNavigate } from 'react-router-dom'
-import { getWorkspaces, postWorkspaces } from '../api/workspace/workspaceService'
+import { deleteWorkspaces, getWorkspaces, postWorkspaces } from '../api/workspace/workspaceService'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
@@ -17,7 +17,7 @@ function HomePage({ }) {
     const [showCreateWorkspaceDialog, setShowCreateWorkspaceDialog] = useState(false)
     const [workspaces, setWorkspaces] = useState([]);
 
-    const lang = ['Java', 'Python', 'C++', 'C']
+    const lang = ['Java', 'Python', 'C++']
 
     const { register, handleSubmit } = useForm({
         defaultValues: {
@@ -40,6 +40,16 @@ function HomePage({ }) {
         }
     }
 
+    const deleteWorkspace = async (userId, workspaceId) => {
+        if (confirm("Do you want to delete workspace?")) {
+            const response = await deleteWorkspaces(userId, workspaceId);
+            if (response.status != 200) {
+                alert(response)
+            }
+            loadWorkspace();
+        }
+
+    }
 
 
     const handleShowCreateWorkspaceDialog = () => {
@@ -52,10 +62,12 @@ function HomePage({ }) {
         setShowCreateWorkspaceDialog(false);
     }
 
-    const handleLogout  = () => {
+    const handleLogout = () => {
         navigate("/login")
         dispatch(logout())
     }
+
+
 
     return (
         <>
@@ -101,11 +113,21 @@ function HomePage({ }) {
             <div className='mx-50'>
                 <div className="flex flex-wrap gap-10 my-10 align-items-center space-between">
                     <div className="title">
-                        <h1>Hello, {userData.firstname + " " + userData.lastname}</h1>
+                        <h1>Hello, {userData.firstname + " " + userData.lastname}
+                            <span class="material-symbols-outlined mx-20 cursor-pointer" onClick={() => navigate('/profile')}>
+                                edit
+                            </span>
+                        </h1>
                     </div>
-                    <div className="flex gap-10">
+                    <div className="flex gap-10 align-items-center">
                         <button onClick={handleShowCreateWorkspaceDialog}>Create new workspace</button>
-                        <button onClick={handleLogout}>Logout</button>
+                        {/* <button onClick={handleLogout}>Logout</button> */}
+                        <span class="material-symbols-outlined cursor-pointer"
+                            style={{ color: 'red' }}
+                            onClick={handleLogout}
+                        >
+                            logout
+                        </span>
                     </div>
                 </div>
 
@@ -114,9 +136,21 @@ function HomePage({ }) {
                     {
                         workspaces.map((value) => (
                             <div className="card" key={value.id}>
-                                <div className="card-title">{value.name}</div>
+                                <div className='flex space-between'>
+
+                                    <div className="card-title">{value.name}</div>
+                                    <div>
+                                        <span class="material-symbols-outlined cursor-pointer"
+                                            style={{ color: 'red' }}
+                                            onClick={() => deleteWorkspace(value.userId, value.id)}
+
+                                        >
+                                            delete
+                                        </span>
+                                    </div>
+                                </div>
                                 <div className="card-subtitle">{value.description}</div>
-                                <button className="play-button" onClick={() => navigate(`/workspace/${value.id}`)}>Play</button>
+                                <button className="play-button" onClick={() => navigate(`/workspace/${value.id}`)}>Start</button>
                             </div>
 
                         ))

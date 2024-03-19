@@ -63,22 +63,22 @@ function Main({ showRunPanel }) {
         const file = files.find((value) => value.id == id)
         console.log(file)
 
-        const response = updateFiles(userData.id, file.workspaceId, id,
+        const response = await updateFiles(userData.id, file.workspaceId, id,
             { filename: file.name, extension: file.extension, code: file.code });
 
         if (response.status == 200) {
-            alert("Code is successfully uploaded!");
+            alert("Code is successfully pushed!");
         }
     }
 
     const handleFileDelete = async (workspaceId, fileId) => {
         console.log("handleFileDelete : ", workspaceId, fileId)
-        if(confirm("Do you want to delete file?")){
+        if (confirm("Do you want to delete file?")) {
             deleteFiles(userData.id, workspaceId, fileId)
             dispatch(removeFile(fileId))
             console.log("Deleted");
         }
-        else{
+        else {
             console.log("Not Deleted")
         }
     }
@@ -97,7 +97,7 @@ function Main({ showRunPanel }) {
                 {/* {showErrorConsole && <ErrorConsole />} */}
                 {showErrorConsole && <DialogBox open={showErrorConsole} title={"Error Console"}></DialogBox>}
             </div>
-            {showDialogBox && <DialogBox open={showDialogBox} title={"Upload Code"} >
+            {showDialogBox && <DialogBox open={showDialogBox} title={"Push code to database"} >
                 <div>
                     <form className="flex flex-col gap-20 width-200 align-items-center" action=""
                         onSubmit={handleSubmit(handleFileUpload)}>
@@ -113,7 +113,7 @@ function Main({ showRunPanel }) {
                             </select>
                         </div>
                         <div>
-                            <button type="submit" id="btnUpload">Upload</button>
+                            <button type="submit" id="btnUpload">Push</button>
                         </div>
                     </form>
                 </div>

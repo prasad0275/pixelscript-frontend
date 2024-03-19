@@ -26,7 +26,7 @@ function Login() {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("status", 'true')
             const userData = { userData: response.data.user };
-            dispatch(loginSlice(userData))
+            dispatch(loginSlice(userData));
             alert("Login successfully done");
             navigate('/');
         }

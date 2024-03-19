@@ -56,6 +56,30 @@ async function postWorkspaces(id, { name, description, type }) {
 
     return response;
 }
+async function deleteWorkspaces(user_id, workspace_id) {
 
+    const token = localStorage.getItem("token");
+    const response = await axios.delete(
+        `http://localhost:8080/users/${user_id}/workspaces/${workspace_id}`
+        ,
+        {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        }
+    )
+        .then((response) => {
+            console.log("Workspace response : ", response)
+            return response;
+        })
+        .catch((error) => {
+            return error.response
+        })
+        .finally(() => {
 
-export { getWorkspaces, postWorkspaces }
+        })
+
+    return response;
+}
+
+export { getWorkspaces, postWorkspaces, deleteWorkspaces }

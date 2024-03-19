@@ -3,6 +3,7 @@ import ContentEditable from "react-contenteditable";
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-terminal";
 import "ace-builds/src-noconflict/ext-language_tools";
@@ -21,12 +22,23 @@ function Textarea({ }) {
     const [position, setPosition] = useState({ row: 0, column: 0 });
     const [word, setWord] = useState('');
     const [currCode, setCurrCode] = useState(selectedFile.code);
-
+    const [mode, setMode] = useState('')
     const editorRef = useRef(null);
     var w = '';
 
     useEffect(() => {
         setCurrCode(selectedFile.code);
+        var temp_mode = 'java';
+        if (selectedFile.extension == 'cpp') {
+            temp_mode = 'cpp';
+        }
+        else if (selectedFile.extension == 'java') {
+            temp_mode = 'java'
+        }
+        else if (selectedFile.extension === 'py') {
+            temp_mode = 'python'
+        }
+        setMode(temp_mode);
     }, [selectedFile])
 
     useEffect(() => {
@@ -102,7 +114,7 @@ function Textarea({ }) {
             <AceEditor
                 id="editor"
                 ref={editorRef}
-                mode="java"
+                mode={mode}
                 theme="terminal"
                 name="UNIQUE_ID_OF_DIV"
                 editorProps={{ $blockScrolling: true }}

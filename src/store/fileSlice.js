@@ -41,12 +41,13 @@ export const fileSlice = createSlice({
             state.files = action.payload
         },
         addFile: (state, action) => {
-            const { id, filename, extension, code } = action.payload
+            const { id, filename, extension, code, workspaceId } = action.payload
             const file = {
                 id: id,
                 filename: filename,
                 extension: extension,
-                code: code
+                code: code,
+                workspaceId: workspaceId
             }
             console.log(file)
             state.files.push(file)

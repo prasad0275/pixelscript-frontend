@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import "./SideMenu.css"
 import { useSelector } from "react-redux"
 function SideMenu({ files, handleFileSelection, handleFileDelete }) {

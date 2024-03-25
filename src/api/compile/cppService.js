@@ -1,6 +1,6 @@
 import axios from "axios"
 
-async function compile({ filename, extension, code }) {
+async function compile({ filename, extension, input, code }) {
     const token = localStorage.getItem("token")
     const reponse = await axios.post(
         'http://localhost:8080/cpp/compile',

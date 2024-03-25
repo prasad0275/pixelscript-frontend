@@ -15,10 +15,10 @@ function SideBar({ handleShowSideMenu, handleShowDialogBox, handleShowErrorConso
                 </span>
             </div>
             <div>
-                {/* <span className="material-symbols-outlined cursor-pointer"
+                <span className="material-symbols-outlined cursor-pointer"
                 onClick={handleShowErrorConsole}>
                     running_with_errors
-                </span> */}
+                </span>
             </div>
         </div>
     )

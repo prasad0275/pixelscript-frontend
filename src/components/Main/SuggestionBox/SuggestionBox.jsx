@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import "./SuggestionBox.css"
-function SuggestionBox({ currObj = "", currProp = "", position = {}, handleSuggestionSelection }) {
+import { keywords as javaKeyword } from "./javaKeywords";
+import { keywords as cppKeyword } from "./cppKeywords";
+import { keywords as pythonKeyword } from "./pythonKeywords";
+function SuggestionBox({ mode = "java", currObj = "", currProp = "", position = {}, handleSuggestionSelection }) {
     const [noMatchingSuggestions, setNoMatchingSuggestions] = useState(true);
-    const [suggestions, setSuggestionPosition] = useState([
+    const [suggestions, setSuggestions] = useState([
         {
             "modifier": "public ",
             "type": "String",
@@ -36,9 +39,19 @@ function SuggestionBox({ currObj = "", currProp = "", position = {}, handleSugge
     ])
 
     useEffect(() => {
+        console.log(mode)
+        if (mode == "java") {
+            setSuggestions(javaKeyword);
+        }
+        else if (mode == "cpp") {
+            setSuggestions(cppKeyword);
+        }
+        else if (mode == "py") {
+            setSuggestions(pythonKeyword);
+        }
 
-        console.log("suggestion box obj", currObj);
-        console.log("suggestion box prop", currProp);
+        // console.log("suggestion box obj", currObj);
+        // console.log("suggestion box prop", currProp);
     }, [currProp])
     return (
         <>
@@ -49,10 +62,12 @@ function SuggestionBox({ currObj = "", currProp = "", position = {}, handleSugge
                             suggestions.map((value) => (
 
                                 value.name.includes(currProp) ?
-                                    (<li key={value.name} onClick={() => (handleSuggestionSelection(value.name))}>{value.name}</li>) : null
+                                    (<div className="flex space-between cursor-pointer" key={value.name} onClick={() => (handleSuggestionSelection(value.name))}>
+                                        <div style={{ color: 'red', fontWeight: 'bold' }}>{value.name}</div>
+                                        <div style={{ color: 'skyblue' }}>{value.type}</div>
+                                    </div>) : null
                                 // if(value.name.includes(currProp)){
-                                
-                                
+
                             ))
                             :
                             <li>No suggestions found</li>

@@ -5,7 +5,7 @@ import DocumentationGenerator from "../DocumentationGenerator/DocumentationGener
 import { useForm } from "react-hook-form"
 import { nanoid } from "@reduxjs/toolkit"
 import { useDispatch, useSelector } from "react-redux"
-import { addFile, renameFile } from "../../store/fileSlice"
+import { addFile, renameFile, saveFile, selectFile } from "../../store/fileSlice"
 import { useNavigate, useParams } from "react-router-dom"
 import { postFiles, updateFiles } from "../../api/workspace/fileService"
 
@@ -44,12 +44,19 @@ function Header({ handleShowRunPanel }) {
             extension: data.extension,
             code: data.code
         }
-        dispatch(addFile(file))
+
         setShowNewFileDialog(false)
-        const response = postFiles(userData.id, param.id, data);
+        const response = await postFiles(userData.id, param.id, data);
         if (response.status == 200) {
-            console.log("File is created!");
+            console.log("File is created!", response.data);
+            const data = response.data
+            console.log(data)
+            dispatch(addFile(data))
         }
+        else {
+            alert("File not created due to internal server error!")
+        }
+
     }
 
     const handleRenameFileDialog = () => {
@@ -72,6 +79,64 @@ function Header({ handleShowRunPanel }) {
         }
     }
 
+    const handleFormatting = () => {
+        var file = { ...selectedFile };
+
+        var formattedCode = '';
+        var indentLevel = 0;
+        var newLineCount = 0;
+        var lines = file.code.split("\n");
+        console.log(lines)
+        if (file.extension == 'java' || file.extension == 'cpp') {
+            lines.map(line => {
+                var space = '';
+                line = line.trim()
+
+                if (line.includes("}")) {
+                    indentLevel -= 1;
+                }
+                for (var i = 0; i < indentLevel; i++) {
+                    space += "\t";
+                }
+                formattedCode += space + line + "\n";
+                // console.log(indentLevel)
+
+                if (line.includes("{")) {
+                    indentLevel += 1;
+                }
+            })
+        }
+        else if (file.extension == 'py') {
+            lines.map(line => {
+                var space = '';
+                line = line.trim()
+                if (line === '') {
+                    newLineCount += 1;
+                }
+                if (newLineCount > 1) {
+                    indentLevel -= 1;
+                    if (indentLevel <= 0) {
+                        indentLevel = 0;
+                    }
+                    newLineCount = 0;
+                }
+                for (var i = 0; i < indentLevel; i++) {
+                    space += "\t";
+                }
+                formattedCode += '\t'.repeat(indentLevel) + line + "\n";
+                // console.log(indentLevel)
+
+                if (line.includes(":")) {
+                    indentLevel += 1;
+                }
+            })
+        }
+        // console.log(formattedCode)
+        file.code = formattedCode;
+        dispatch(selectFile(file));
+        dispatch(saveFile(file));
+    }
+
     return (
         <div>
             <header className="flex align-items-center">
@@ -92,13 +157,13 @@ function Header({ handleShowRunPanel }) {
                             </div>
                         </div>
                         <div>
-                            <div className="nav-item cursor-pointer">Edit</div>
+                            <div className="nav-item cursor-pointer">Options</div>
                             <div className="item-content">
                                 <ul>
                                     {/* <li className="cursor-pointer">Find</li>
                                     <li className="cursor-pointer">Replace</li> */}
-                                    <li className="cursor-pointer">Font</li>
-                                    <li className="cursor-pointer">Font Size</li>
+                                    <li className="cursor-pointer" onClick={handleFormatting}>Format code</li>
+                                    <li className="cursor-pointer" onClick={handleShowRunPanel}>Run code</li>
                                 </ul>
                             </div>
                         </div>
@@ -108,7 +173,11 @@ function Header({ handleShowRunPanel }) {
                     <h1 className="block" id="nav-title">PixelScript</h1>
                 </div>
                 <div className="flex gap-10 mx-10">
-
+                    <div>
+                        <span className="material-symbols-outlined cursor-pointer" onClick={handleFormatting}>
+                            subject
+                        </span>
+                    </div>
                     <div>
                         <span className="material-symbols-outlined cursor-pointer" onClick={handleShowRunPanel}>
                             sound_sampler

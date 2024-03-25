@@ -51,15 +51,25 @@ function Textarea({ }) {
             // console.log("key : ", char);
             setPosition(e.end);
             setWord(value => value + char);
-            if (char === '.') {
-                console.log("show suggestion");
-                console.log("Word :", w);
-                const session = editor.getSession();
-                const row = 2;
-                const column = 5;
-                const text = "Hare Krishna";
-                setShowSuggestion(true);
+            // if (char === '.') {
+            console.log("show suggestion");
+            console.log("Word :", w);
+            const session = editor.getSession();
+            const row = 2;
+            const column = 5;
+            const text = "Hare Krishna";
+            setShowSuggestion(true);
 
+            // }
+            if (e.action == 'remove') {
+                w = word.substring(0, word.length - 2);
+                // console.log("word", e.action, w);
+                setWord(w);
+            }
+            if (char === '.') {
+                w = ''
+                setShowSuggestion(false)
+                setWord('')
             }
             w += char;
             if (char.includes(" ")) {
@@ -88,7 +98,8 @@ function Textarea({ }) {
         const row = position.row;
         const column = position.column;
         const session = editorRef.current.editor.getSession();
-        session.insert({ row, column }, text);
+        session.remove({ start: { row, column: column - word.length }, end: { row, column: column } });
+        session.insert({ row, column }, text + " ");
         setShowSuggestion(false);
         const editor = editorRef.current.editor;
         editor.selection.moveTo(row, column + text.length);
@@ -126,7 +137,7 @@ function Textarea({ }) {
             />
 
             <div>{word}</div>
-            {showSuggestion && <SuggestionBox currObj={word} currProp={''} position={suggestionPosition} handleSuggestionSelection={handleSuggestionSelection} />}
+            {showSuggestion && <SuggestionBox mode={selectedFile.extension} currObj={word} currProp={word} position={suggestionPosition} handleSuggestionSelection={handleSuggestionSelection} />}
 
         </>
 

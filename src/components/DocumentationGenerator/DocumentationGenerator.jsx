@@ -65,7 +65,7 @@ function DocumentationGenerator() {
                     </Text>
                     {codeBlocks.map((block, index) => (
                         block.type === 'comment' ? (
-                            <Text style={{ fontSize: 12, marginTop: 10, marginBottom: 2, color: 'black', fontWeight: 'bold' }} key={index}>
+                            <Text style={{ fontSize: 10, marginTop: 5, marginBottom: 2, color: 'black', fontWeight: 'bold' }} key={index}>
                                 {block.content}
                             </Text>
                         ) : (

@@ -3,9 +3,9 @@ import { createSlice, nanoid } from "@reduxjs/toolkit"
 const initialState = {
     selectedFile: {
         id: 1,
-        filename: "First",
+        filename: "Temp",
         extension: 'java',
-        code: "class selectedFirst{\n public static void main(String args[]){\n \n }\n}",
+        code: "",
     },
     files: [
         {

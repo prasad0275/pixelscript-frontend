@@ -6,7 +6,7 @@ import DialogBox from "../components/Main/DialogBox/DialogBox"
 import { useParams } from "react-router-dom"
 import { getFiles } from "../api/workspace/fileService"
 import { useDispatch, useSelector } from "react-redux"
-import { addFiles } from "../store/fileSlice"
+import { addFile, addFiles, selectFile } from "../store/fileSlice"
 function EditorWindow() {
 
     
@@ -22,6 +22,14 @@ function EditorWindow() {
 
     useEffect(() => {
         const response = loadFiles();
+        const file = {
+            id: 0,
+            name: "First",
+            extension: 'txt',
+            code: "Please select the file from file menu or create new file",
+        }
+
+        dispatch(selectFile(file));
     },[])
 
     const loadFiles = async () => {

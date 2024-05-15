@@ -136,7 +136,7 @@ function Textarea({ }) {
                 fontSize={'20px'}
             />
 
-            <div>{word}</div>
+            {/* <div>{word}</div> */}
             {showSuggestion && <SuggestionBox mode={selectedFile.extension} currObj={word} currProp={word} position={suggestionPosition} handleSuggestionSelection={handleSuggestionSelection} />}
 
         </>

@@ -50,11 +50,11 @@ function Header({ handleShowRunPanel }) {
         if (response.status == 200) {
             console.log("File is created!", response.data);
             const data = response.data
-            console.log(data)
+            console.log(">>>",data)
             dispatch(addFile(data))
         }
         else {
-            alert("File not created due to internal server error!")
+            alert("File already exists")
         }
 
     }
@@ -85,6 +85,7 @@ function Header({ handleShowRunPanel }) {
         var formattedCode = '';
         var indentLevel = 0;
         var newLineCount = 0;
+        file.code = file.code.replace(/[^\S\r\n]+/g, ' ').trim();
         var lines = file.code.split("\n");
         console.log(lines)
         if (file.extension == 'java' || file.extension == 'cpp') {
@@ -132,7 +133,10 @@ function Header({ handleShowRunPanel }) {
             })
         }
         // console.log(formattedCode)
-        file.code = formattedCode;
+        // file.code = formattedCode.replace(/[^\S\r\n]+/g, ' ').trim();
+        file.code = formattedCode
+        console.log("Spiltted code : ", formattedCode.replace(/\s+/g, ' '))
+        var newCode = formattedCode.split(" ").join(" ");
         dispatch(selectFile(file));
         dispatch(saveFile(file));
     }

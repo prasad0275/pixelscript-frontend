@@ -12,7 +12,7 @@ import { compile as compileCPP, run as runCPP } from "../../api/compile/cppServi
 import { compile as interpretPython, run as runPython } from "../../api/compile/pythonService";
 
 import { useDispatch, useSelector } from "react-redux"
-import { removeFile, saveFile, selectFile } from "../../store/fileSlice"
+import { addFile, removeFile, saveFile, selectFile } from "../../store/fileSlice"
 import Textarea from "./Editor/Textarea"
 import { nanoid } from "@reduxjs/toolkit"
 import { useForm } from "react-hook-form"
@@ -138,7 +138,7 @@ function Main({ showRunPanel }) {
                 }
                 
             })
-            alert("All files are uploaded!")
+            alert("All files are successfully pushed!")
         }
         catch {
 
